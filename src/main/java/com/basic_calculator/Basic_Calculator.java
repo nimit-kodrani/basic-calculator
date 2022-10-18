@@ -1,11 +1,14 @@
 package com.basic_calculator;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import java.awt.Color;
+import javax.swing.*;
+import java.lang.Math;
 
 public class Basic_Calculator {
 
@@ -27,57 +30,7 @@ public class Basic_Calculator {
     private boolean go = true; // For calculate with Opt != (=)
     private boolean addWrite = true; // Connect numbers in display
     private double val = 0; // Save the value typed for calculation
-    private Consumer<ItemEvent> calcTypeSwitchEventConsumer = event -> {
-        if (event.getStateChange() != ItemEvent.SELECTED) return;
 
-        String selectedItem = (String) event.getItem();
-
-        window.setSize(WIDTH, HEIGHT);
-        buttonRoot.setVisible(false);
-        buttonPower.setVisible(false);
-        buttonLog.setVisible(false);
-
-    };
-    private Consumer<ItemEvent> themeSwitchEventConsumer = event -> {
-        if (event.getStateChange() != ItemEvent.SELECTED) return;
-
-        String selectedTheme = (String) event.getItem();
-
-        window.getContentPane().setBackground(null);
-        buttonC.setBackground(null);
-        buttonBack.setBackground(null);
-        buttonMultiply.setBackground(null);
-        buttonDivision.setBackground(null);
-        buttonMode.setBackground(null);
-        buttonSubtract.setBackground(null);
-        buttonAdd.setBackground(null);
-        buttonRoot.setBackground(null);
-        buttonLog.setBackground(null);
-        buttonPower.setBackground(null);
-        buttonEqual.setBackground(null);
-        button0.setBackground(null);
-        button1.setBackground(null);
-        button2.setBackground(null);
-        button3.setBackground(null);
-        button4.setBackground(null);
-        button5.setBackground(null);
-        button6.setBackground(null);
-        button7.setBackground(null);
-        button8.setBackground(null);
-        button9.setBackground(null);
-
-        buttonC.setForeground(Color.BLACK);
-        buttonBack.setForeground(Color.BLACK);
-        buttonMultiply.setForeground(Color.BLACK);
-        buttonDivision.setForeground(Color.BLACK);
-        buttonMode.setForeground(Color.BLACK);
-        buttonSubtract.setForeground(Color.BLACK);
-        buttonAdd.setForeground(Color.BLACK);
-        buttonEqual.setForeground(Color.BLACK);
-        buttonLog.setForeground(Color.BLACK);
-        buttonPower.setForeground(Color.BLACK);
-        buttonRoot.setForeground(Color.BLACK);
-    };
 
     public Basic_Calculator() {
         window = new JFrame("Basic_Calculator");
@@ -107,16 +60,7 @@ public class Basic_Calculator {
 
         buttonBack = initBtn("B", x[1], y[1], event -> {
             repaintFont();
-            String str = inText.getText();
-            StringBuilder str2 = new StringBuilder();
-            for (int i = 0; i < (str.length() - 1); i++) {
-                str2.append(str.charAt(i));
-            }
-            if (str2.toString().equals("")) {
-                inText.setText("0");
-            } else {
-                inText.setText(str2.toString());
-            }
+            //yet to be implemented
         });
 
 
@@ -167,7 +111,21 @@ public class Basic_Calculator {
 
         buttonMultiply = initBtn("*", x[3], y[2], event -> {
             repaintFont();
-            // yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+                if (go) {
+                    val = calc(val, inText.getText(), opt);
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+
+                    opt = '*';
+                    go = false;
+                    addWrite = false;
+                } else {
+                    opt = '*';
+                }
         });
 
         buttonDivision = initBtn("/", x[3], y[1], event -> {
@@ -339,13 +297,36 @@ public class Basic_Calculator {
         buttonEqual.setSize(2 * BUTTON_WIDTH + 10, BUTTON_HEIGHT);
 
         buttonRoot = initBtn("√", x[4], y[1], event -> {
-            //yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+                if (go) {
+                    val = Math.sqrt(Double.parseDouble(inText.getText()));
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+                    opt = '√';
+                    addWrite = false;
+                }
         });
         buttonRoot.setVisible(true);
 
         buttonPower = initBtn("pow", x[4], y[2], event -> {
             repaintFont();
-            //yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+                if (go) {
+                    val = calc(val, inText.getText(), opt);
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+                    opt = '^';
+                    go = false;
+                    addWrite = false;
+                } else {
+                    opt = '^';
+                }
         });
         buttonPower.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
         buttonPower.setVisible(false);
@@ -359,10 +340,6 @@ public class Basic_Calculator {
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close button clicked? = End The process
         window.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new Basic_Calculator();
     }
 
     private JComboBox<String> initCombo(String[] items, int x, int y, String toolTip, Consumer consumerEvent) {
@@ -412,5 +389,62 @@ public class Basic_Calculator {
 
     private void repaintFont() {
         inText.setFont(inText.getFont().deriveFont(Font.PLAIN));
+    }
+
+    private Consumer<ItemEvent> calcTypeSwitchEventConsumer = event -> {
+        if (event.getStateChange() != ItemEvent.SELECTED) return;
+
+        String selectedItem = (String) event.getItem();
+
+        window.setSize(WIDTH, HEIGHT);
+        buttonRoot.setVisible(false);
+        buttonPower.setVisible(false);
+        buttonLog.setVisible(false);
+
+    };
+
+    private Consumer<ItemEvent> themeSwitchEventConsumer = event -> {
+        if (event.getStateChange() != ItemEvent.SELECTED) return;
+
+        String selectedTheme = (String) event.getItem();
+
+        window.getContentPane().setBackground(null);
+        buttonC.setBackground(null);
+        buttonBack.setBackground(null);
+        buttonMultiply.setBackground(null);
+        buttonDivision.setBackground(null);
+        buttonMode.setBackground(null);
+        buttonSubtract.setBackground(null);
+        buttonAdd.setBackground(null);
+        buttonRoot.setBackground(null);
+        buttonLog.setBackground(null);
+        buttonPower.setBackground(null);
+        buttonEqual.setBackground(null);
+        button0.setBackground(null);
+        button1.setBackground(null);
+        button2.setBackground(null);
+        button3.setBackground(null);
+        button4.setBackground(null);
+        button5.setBackground(null);
+        button6.setBackground(null);
+        button7.setBackground(null);
+        button8.setBackground(null);
+        button9.setBackground(null);
+
+        buttonC.setForeground(Color.BLACK);
+        buttonBack.setForeground(Color.BLACK);
+        buttonMultiply.setForeground(Color.BLACK);
+        buttonDivision.setForeground(Color.BLACK);
+        buttonMode.setForeground(Color.BLACK);
+        buttonSubtract.setForeground(Color.BLACK);
+        buttonAdd.setForeground(Color.BLACK);
+        buttonEqual.setForeground(Color.BLACK);
+        buttonLog.setForeground(Color.BLACK);
+        buttonPower.setForeground(Color.BLACK);
+        buttonRoot.setForeground(Color.BLACK);
+    };
+
+    public static void main(String[] args) {
+        new Basic_Calculator();
     }
 }
