@@ -1,4 +1,4 @@
-package com.houarizegai.calculator;
+package com.basic_calculator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 class CalculatorTest {
 
-    private Calculator calculator;
+    private Basic_Calculator calculator;
 
     @BeforeEach
     void setUp() { // Create object before compilation
-        calculator = new Calculator();
+        calculator = new Basic_Calculator();
     }
 
     /*
@@ -24,10 +24,6 @@ class CalculatorTest {
         try {
             Assertions.assertEquals(8, calculator.calc(first, second, '+'));
             Assertions.assertEquals(-2, calculator.calc(first, second, '-'));
-            Assertions.assertEquals(15, calculator.calc(first, second, '*'));
-            Assertions.assertEquals(0.6, calculator.calc(first, second, '/'));
-            Assertions.assertEquals(3d, calculator.calc(first, second, '%'));
-            Assertions.assertEquals(243, calculator.calc(first, second, '^'));
         } catch (Exception e) {
             e.printStackTrace();
         }
