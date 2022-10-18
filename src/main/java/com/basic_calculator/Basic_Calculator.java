@@ -135,7 +135,18 @@ public class Basic_Calculator {
 
         buttonMode = initBtn("%", x[2], y[1], event -> {
             repaintFont();
-            // yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+            if (go) {
+                    val = calc(val, inText.getText(), opt);
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+                    opt = '%';
+                    go = false;
+                    addWrite = false;
+                }
         });
 
         button4 = initBtn("4", x[0], y[3], event -> {
