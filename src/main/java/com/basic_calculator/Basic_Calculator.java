@@ -283,7 +283,17 @@ public class Basic_Calculator {
         buttonEqual.setSize(2 * BUTTON_WIDTH + 10, BUTTON_HEIGHT);
 
         buttonRoot = initBtn("√", x[4], y[1], event -> {
-            //yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+                if (go) {
+                    val = Math.sqrt(Double.parseDouble(inText.getText()));
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+                    opt = '√';
+                    addWrite = false;
+                }
         });
         buttonRoot.setVisible(true);
 
