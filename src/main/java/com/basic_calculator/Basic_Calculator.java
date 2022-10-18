@@ -24,7 +24,7 @@ public class Basic_Calculator {
     private JTextField inText; // Input
     private JButton buttonC, buttonBack, buttonMultiply, buttonDivision, buttonMode, buttonSubtract, buttonAdd,
             button0, button1, button2, button3, button4, button5, button6, button7, button8, button9,
-             buttonEqual, buttonRoot, buttonPower, buttonLog;
+            buttonEqual, buttonRoot, buttonPower, buttonLog;
 
     private char opt = ' '; // Save the operator
     private boolean go = true; // For calculate with Opt != (=)
@@ -52,7 +52,10 @@ public class Basic_Calculator {
         window.add(inText);
 
         buttonC = initBtn("C", x[0], y[1], event -> {
-            //yet to be implemented
+            repaintFont();
+            inText.setText("0");
+            opt = ' ';
+            val = 0;
         });
 
         buttonBack = initBtn("B", x[1], y[1], event -> {
@@ -292,7 +295,7 @@ public class Basic_Calculator {
         buttonPower.setVisible(false);
 
         buttonLog = initBtn("ln", x[4], y[3], event -> {
-           //yet to be implemented
+            //yet to be implemented
         });
         buttonLog.setVisible(false);
 
@@ -356,10 +359,10 @@ public class Basic_Calculator {
 
         String selectedItem = (String) event.getItem();
 
-                window.setSize(WIDTH, HEIGHT);
-                buttonRoot.setVisible(false);
-                buttonPower.setVisible(false);
-                buttonLog.setVisible(false);
+        window.setSize(WIDTH, HEIGHT);
+        buttonRoot.setVisible(false);
+        buttonPower.setVisible(false);
+        buttonLog.setVisible(false);
 
     };
 
