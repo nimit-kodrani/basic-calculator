@@ -111,7 +111,21 @@ public class Basic_Calculator {
 
         buttonMultiply = initBtn("*", x[3], y[2], event -> {
             repaintFont();
-            // yet to be implemented
+            if (Pattern.matches("([-]?\\d+[.]\\d*)|(\\d+)", inText.getText()))
+                if (go) {
+                    val = calc(val, inText.getText(), opt);
+                    if (Pattern.matches("[-]?[\\d]+[.][0]*", String.valueOf(val))) {
+                        inText.setText(String.valueOf((int) val));
+                    } else {
+                        inText.setText(String.valueOf(val));
+                    }
+
+                    opt = '*';
+                    go = false;
+                    addWrite = false;
+                } else {
+                    opt = '*';
+                }
         });
 
         buttonDivision = initBtn("/", x[3], y[1], event -> {
