@@ -20,10 +20,16 @@ class CalculatorTest {
     void testCalc() {
         double first = 3;
         String second = "5";
+        double third = 12;
+        String fourth = "4";
 
         try {
             Assertions.assertEquals(8, calculator.calc(first, second, '+'));
             Assertions.assertEquals(-2, calculator.calc(first, second, '-'));
+            Assertions.assertEquals(15, calculator.calc(first, second, '*'));
+            Assertions.assertEquals(3, calculator.calc(third, fourth, '/'));
+            Assertions.assertEquals(2, calculator.calc(fourth, '√');
+            Assertions.assertEquals(81, calculator.calc(first, second, '^'));
         } catch (Exception e) {
             e.printStackTrace();
         }
