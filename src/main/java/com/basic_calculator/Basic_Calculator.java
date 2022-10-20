@@ -37,7 +37,7 @@ public class Basic_Calculator {
         window.setSize(WIDTH, HEIGHT);
         window.setLocationRelativeTo(null); // Move window to center
 
-        comboTheme = initCombo(new String[]{"Simple"}, 230, 30, "Theme", themeSwitchEventConsumer);
+        comboTheme = initCombo(new String[]{"Simple", "Scientific"}, 230, 30, "Theme", themeSwitchEventConsumer);
 
         comboCalcType = initCombo(new String[]{"Standard"}, 20, 30, "Calculator type", calcTypeSwitchEventConsumer);
 
@@ -415,16 +415,25 @@ public class Basic_Calculator {
         inText.setFont(inText.getFont().deriveFont(Font.PLAIN));
     }
 
+
     private Consumer<ItemEvent> calcTypeSwitchEventConsumer = event -> {
         if (event.getStateChange() != ItemEvent.SELECTED) return;
 
         String selectedItem = (String) event.getItem();
-
-        window.setSize(WIDTH, HEIGHT);
-        buttonRoot.setVisible(false);
-        buttonPower.setVisible(false);
-        buttonLog.setVisible(false);
-
+        switch (selectedItem) {
+            case "Standard":
+                window.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+                btnRoot.setVisible(false);
+                btnPower.setVisible(false);
+                btnLog.setVisible(false);
+                break;
+            case "Scientific":
+                window.setSize(WINDOW_WIDTH + 80, WINDOW_HEIGHT);
+                btnRoot.setVisible(true);
+                btnPower.setVisible(true);
+                btnLog.setVisible(true);
+                break;
+        }
     };
 
     private Consumer<ItemEvent> themeSwitchEventConsumer = event -> {
